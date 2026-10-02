@@ -33,7 +33,7 @@ submitBtn.addEventListener("click",async () => {
         formData.append("files", file);
     }
 
-     const response = await fetch("http://127.0.0.1:8000/post", {
+     const response = await fetch("https://pix2pdf-backend.onrender.com/post", {
         method: "POST",
         body: formData
     });
