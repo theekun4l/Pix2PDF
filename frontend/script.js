@@ -33,9 +33,6 @@ submitBtn.addEventListener("click", async () => {
         formData.append("files", file);
     }
 
-    // User click ke immediately andar window open
-    const newTab = window.open("", "_blank");
-
     try {
 
         const response = await fetch(
@@ -47,29 +44,38 @@ submitBtn.addEventListener("click", async () => {
         );
 
         if (!response.ok) {
-            throw new Error("PDF conversion failed");
+            throw new Error(`Server error: ${response.status}`);
         }
 
         const blob = await response.blob();
 
-        const url = URL.createObjectURL(blob);
+        console.log("PDF blob:", blob);
+        console.log("Blob type:", blob.type);
+        console.log("Blob size:", blob.size);
 
-        // Mobile browser mein PDF open hoga
-        if (newTab) {
-            newTab.location.href = url;
-        } else {
-            window.location.href = url;
-        }
+        const url = URL.createObjectURL(
+            new Blob([blob], {
+                type: "application/octet-stream"
+            })
+        );
+
+        const a = document.createElement("a");
+
+        a.href = url;
+        a.download = "converted.pdf";
+        a.target = "_blank";
+
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+
+        setTimeout(() => {
+            URL.revokeObjectURL(url);
+        }, 1000);
 
     } catch (error) {
-
-        console.error("Error:", error);
-
-        if (newTab) {
-            newTab.close();
-        }
-
-        alert("PDF convert nahi hua. Please try again.");
+        console.error("PDF conversion failed:", error);
+        alert("PDF download failed. Please try again.");
     }
 });
 
