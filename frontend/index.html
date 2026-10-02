@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pix2PDF</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css">
+</head>
+<body>
+    <header>
+        <img src="photos/logo.svg" alt="logo">
+    </header>
+    <div class="tag-line">Turn your photos into a single, high-quality PDF</div>
+    <div class="tag-line2"><div>Fast</div> <div>•</div>   <div>Simple</div>  <div>•</div>   <div>Free</div></div>
+    
+    <img src="photos/upload+arrow.png" alt="upload" class="upload">
+
+    <div class="drop-box">
+        <div class="img-div">
+            <img src="photos/upload-icon.svg" alt="upload">
+        </div>
+        <div class="drag">Drag and drop your photos here</div>
+        <div class="click">or click to select images</div>
+        <div class="box">
+            <input type="file" name="file" accept="image/*" multiple id="photos" hidden >
+            <button class="upload-button"><i class="fa-solid fa-plus"></i> <span>Select Images</span></button>
+        </div>
+        <div class="support">Supports: JPG,JPEG,PNG,WBEP</div>
+        <div class="multiple">You can upload multiple images</div>
+    </div>
+    <div class="preview">
+    </div>
+    <div class="submit-btn">
+        <button id="submit"><i class="fa-solid fa-file"></i> <span class="convert">Convert to PDF <i class="fa-solid fa-arrow-right-long"></i></span></button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
