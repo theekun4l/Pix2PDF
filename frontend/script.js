@@ -25,37 +25,51 @@ fileInput.addEventListener("change", () => {
         Preview.appendChild(img);
     }
 });
+submitBtn.addEventListener("click", async () => {
 
-submitBtn.addEventListener("click",async () => {
     const formData = new FormData();
 
-     for (const file of fileInput.files) {
+    for (const file of fileInput.files) {
         formData.append("files", file);
     }
 
-     const response = await fetch("https://pix2pdf-backend.onrender.com/post", {
-        method: "POST",
-        body: formData
-    });
+    // User click ke immediately andar window open
+    const newTab = window.open("", "_blank");
 
-    console.log("Response:", response);
-    console.log("Status:", response.status);
-    console.log("Type:", response.headers.get("content-type"));
+    try {
 
-    const blob = await response.blob();
+        const response = await fetch(
+            "https://pix2pdf-backend.onrender.com/post",
+            {
+                method: "POST",
+                body: formData
+            }
+        );
 
-    console.log("PDF blob:", blob);
+        if (!response.ok) {
+            throw new Error("PDF conversion failed");
+        }
 
-    const url = URL.createObjectURL(blob);
+        const blob = await response.blob();
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "converted.pdf";
+        const url = URL.createObjectURL(blob);
 
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
+        // Mobile browser mein PDF open hoga
+        if (newTab) {
+            newTab.location.href = url;
+        } else {
+            window.location.href = url;
+        }
 
-    URL.revokeObjectURL(url);
-})
+    } catch (error) {
+
+        console.error("Error:", error);
+
+        if (newTab) {
+            newTab.close();
+        }
+
+        alert("PDF convert nahi hua. Please try again.");
+    }
+});
 
